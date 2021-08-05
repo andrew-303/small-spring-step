@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+
+    <bean id="userServiceInfo" class="cn.bugstack.springframework.test.bean.back.UserServiceInfo" scope="singleton">
+        <property name="uId" value="10002"/>
+        <property name="company" value="腾讯"/>
+        <property name="location" value="深圳"/>
+        <property name="userDao" ref="proxyUserDao"/>
+    </bean>
+
+    <bean id="proxyUserDao" class="cn.bugstack.springframework.test.bean.proxy.ProxyBeanFactory"/>
+
+</beans>
