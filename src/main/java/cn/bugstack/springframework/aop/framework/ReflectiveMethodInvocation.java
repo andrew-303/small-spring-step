@@ -9,9 +9,10 @@ import java.lang.reflect.Method;
  * <p>Invokes the target object using reflection. Subclasses can override the
  * #invokeJoinpoint() method to change this behavior, so this is also
  * a useful base class for more specialized MethodInvocation implementations.
- * 使用反射调用目标对象。子类可以覆盖 #invokeJoinpoint() 方法来改变这种行为，
- * 所以这也是 更专业的 MethodInvocation 实现的一个有用的基类
  * <p>
+ * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
+ * 公众号：bugstack虫洞栈
+ * Create by 小傅哥(fustack)
  */
 public class ReflectiveMethodInvocation implements MethodInvocation {
 

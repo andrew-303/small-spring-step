@@ -1,7 +1,6 @@
 package cn.bugstack.springframework.aop.framework.autoproxy;
 
 import cn.bugstack.springframework.aop.*;
-import cn.bugstack.springframework.aop.aspectj.AspectJExpressionPointcut;
 import cn.bugstack.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor;
 import cn.bugstack.springframework.aop.framework.ProxyFactory;
 import cn.bugstack.springframework.beans.BeansException;
@@ -15,7 +14,13 @@ import org.aopalliance.intercept.MethodInterceptor;
 import java.util.Collection;
 
 /**
- * @author Andrew
+ * BeanPostProcessor implementation that creates AOP proxies based on all candidate
+ * Advisors in the current BeanFactory. This class is completely generic; it contains
+ * no special code to handle any particular aspects, such as pooling aspects.
+ * <p>
+ * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
+ * 公众号：bugstack虫洞栈
+ * Create by 小傅哥(fustack)
  */
 public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPostProcessor, BeanFactoryAware {
 
@@ -70,4 +75,5 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         return bean;
     }
+    
 }

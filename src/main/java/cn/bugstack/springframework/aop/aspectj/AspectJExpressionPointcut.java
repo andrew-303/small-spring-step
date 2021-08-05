@@ -11,11 +11,18 @@ import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Spring {@link cn.bugstack.springframework.aop.Pointcut} implementation
+ * that uses the AspectJ weaver to evaluate a pointcut expression.
+ * <p>
+ * 切点表达式
+ * <p>
+ * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
+ * 公众号：bugstack虫洞栈
+ * Create by 小傅哥(fustack)
+ */
 public class AspectJExpressionPointcut implements Pointcut, ClassFilter, MethodMatcher {
 
-    /**
-     * PointcutPrimitive 表示AspectJ 支持的不同类型切入点原语的枚举
-     */
     private static final Set<PointcutPrimitive> SUPPORTED_PRIMITIVES = new HashSet<PointcutPrimitive>();
 
     static {
@@ -25,21 +32,17 @@ public class AspectJExpressionPointcut implements Pointcut, ClassFilter, MethodM
     private final PointcutExpression pointcutExpression;
 
     public AspectJExpressionPointcut(String expression) {
-        // 返回一个切入点解析器，它可以解析从用户定义的 AspectJ 支持的切入点原语子集构建的切入点表达式
         PointcutParser pointcutParser = PointcutParser.getPointcutParserSupportingSpecifiedPrimitivesAndUsingSpecifiedClassLoaderForResolution(SUPPORTED_PRIMITIVES, this.getClass().getClassLoader());
-        // 解析给定的切入点表达式。假定全局范围用于解析任何类型引用，并且切入点必须不包含形式（要绑定的变量）
         pointcutExpression = pointcutParser.parsePointcutExpression(expression);
     }
 
     @Override
     public boolean matches(Class<?> clazz) {
-        // 确定此切入点是否可以匹配给定类中的连接点。
         return pointcutExpression.couldMatchJoinPointsInType(clazz);
     }
 
     @Override
     public boolean matches(Method method, Class<?> targetClass) {
-        // 确定此切入点是否与给定方法的执行相匹配
         return pointcutExpression.matchesMethodExecution(method).alwaysMatches();
     }
 
@@ -52,6 +55,5 @@ public class AspectJExpressionPointcut implements Pointcut, ClassFilter, MethodM
     public MethodMatcher getMethodMatcher() {
         return this;
     }
-
 
 }

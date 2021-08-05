@@ -3,9 +3,16 @@ package cn.bugstack.springframework.context.support;
 import cn.bugstack.springframework.beans.BeansException;
 
 /**
- * 应用上下文的实现类
- * 主要是对继承抽象类中方法的调用和提供了配置文件地址信息。
- * @author Andrew
+ * Standalone XML application context, taking the context definition files
+ * from the class path, interpreting plain paths as class path resource names
+ * that include the package path (e.g. "mypackage/myresource.txt"). Useful for
+ * test harnesses as well as for application contexts embedded within JARs.
+ * <p>
+ * XML 文件应用上下文
+ * <p>
+ * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
+ * 公众号：bugstack虫洞栈
+ * Create by 小傅哥(fustack)
  */
 public class ClassPathXmlApplicationContext extends AbstractXmlApplicationContext {
 
@@ -38,4 +45,5 @@ public class ClassPathXmlApplicationContext extends AbstractXmlApplicationContex
     protected String[] getConfigLocations() {
         return configLocations;
     }
+
 }

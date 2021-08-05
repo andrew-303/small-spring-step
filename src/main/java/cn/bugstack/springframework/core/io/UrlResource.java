@@ -8,9 +8,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
-/**
- * 通过 HTTP 的方式读取云服务的文件，我们也可以把配置文件放到 GitHub 或者 Gitee 上。
- */
 public class UrlResource implements Resource{
 
     private final URL url;
@@ -25,8 +22,9 @@ public class UrlResource implements Resource{
         URLConnection con = this.url.openConnection();
         try {
             return con.getInputStream();
-        } catch (IOException ex) {
-            if (con instanceof HttpURLConnection) {
+        }
+        catch (IOException ex){
+            if (con instanceof HttpURLConnection){
                 ((HttpURLConnection) con).disconnect();
             }
             throw ex;

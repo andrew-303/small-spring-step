@@ -9,34 +9,33 @@ import cn.bugstack.springframework.beans.PropertyValues;
  */
 public class BeanDefinition {
 
-    /**
-     *  Bean的作用范围定义
-      */
     String SCOPE_SINGLETON = ConfigurableBeanFactory.SCOPE_SINGLETON;
+
     String SCOPE_PROTOTYPE = ConfigurableBeanFactory.SCOPE_PROTOTYPE;
 
     private Class beanClass;
+
     private PropertyValues propertyValues;
+
     private String initMethodName;
+
     private String destroyMethodName;
 
     private String scope = SCOPE_SINGLETON;
-    private boolean singleton = true;
-    private boolean prototype = false;
 
+    private boolean singleton = true;
+
+    private boolean prototype = false;
 
     public BeanDefinition(Class beanClass) {
         this(beanClass, null);
     }
 
-    public BeanDefinition(Class beanClass,PropertyValues propertyValues) {
+    public BeanDefinition(Class beanClass, PropertyValues propertyValues) {
         this.beanClass = beanClass;
         this.propertyValues = propertyValues != null ? propertyValues : new PropertyValues();
     }
 
-    /**
-     * 设置作用域
-     */
     public void setScope(String scope) {
         this.scope = scope;
         this.singleton = SCOPE_SINGLETON.equals(scope);
@@ -46,6 +45,7 @@ public class BeanDefinition {
     public boolean isSingleton() {
         return singleton;
     }
+
     public boolean isPrototype() {
         return prototype;
     }

@@ -6,21 +6,25 @@ import cn.bugstack.springframework.beans.factory.config.BeanDefinition;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-public class SimpleInstantiationStrategy implements InstantiationStrategy{
+/**
+ * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
+ * 公众号：bugstack虫洞栈
+ * Create by 小傅哥(fustack)
+ */
+public class SimpleInstantiationStrategy implements InstantiationStrategy {
 
     @Override
     public Object instantiate(BeanDefinition beanDefinition, String beanName, Constructor ctor, Object[] args) throws BeansException {
-//        System.out.println("SimpleInstantiationStrategy.instantiate");
-        // 获取Class信息，这个类信息是Bean定义的时候传递进去的。
         Class clazz = beanDefinition.getBeanClass();
         try {
-            if (null != ctor) { //有参构造器
+            if (null != ctor) {
                 return clazz.getDeclaredConstructor(ctor.getParameterTypes()).newInstance(args);
-            } else {    // 无参构造器
+            } else {
                 return clazz.getDeclaredConstructor().newInstance();
             }
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
             throw new BeansException("Failed to instantiate [" + clazz.getName() + "]", e);
         }
     }
+
 }

@@ -17,39 +17,36 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 
+    /**
+     * Internal marker for a null singleton object:
+     * used as marker value for concurrent Maps (which don't support null values).
+     */
     protected static final Object NULL_OBJECT = new Object();
 
-    private Map<String,Object> singletonObjects = new ConcurrentHashMap<>();
-    private final Map<String, DisposableBean> disposableBeanMap = new LinkedHashMap<>();
+    private Map<String, Object> singletonObjects = new ConcurrentHashMap<>();
+
+    private final Map<String, DisposableBean> disposableBeans = new LinkedHashMap<>();
 
     @Override
     public Object getSingleton(String beanName) {
-//        System.out.println("3.DefaultSingletonBeanRegistry.getSingleton 获取单例bean对象名称：" + beanName );
-//        System.out.println("3.1.singletonObjects.get(beanName) 获取单例bean对象: " + singletonObjects.get(beanName));
         return singletonObjects.get(beanName);
     }
 
-    @Override
     public void registerSingleton(String beanName, Object singletonObject) {
         singletonObjects.put(beanName, singletonObject);
     }
 
-    protected void addSingleton(String beanName, Object singletonObject) {
-        singletonObjects.put(beanName, singletonObject);
-    }
-
     public void registerDisposableBean(String beanName, DisposableBean bean) {
-        System.out.println("registerDisposableBean");
-        disposableBeanMap.put(beanName,bean);
+        disposableBeans.put(beanName, bean);
     }
 
     public void destroySingletons() {
-        Set<String> keySet = this.disposableBeanMap.keySet();
+        Set<String> keySet = this.disposableBeans.keySet();
         Object[] disposableBeanNames = keySet.toArray();
-
-        for (int i = disposableBeanNames.length - 1; i >=0; i--) {
+        
+        for (int i = disposableBeanNames.length - 1; i >= 0; i--) {
             Object beanName = disposableBeanNames[i];
-            DisposableBean disposableBean = disposableBeanMap.remove(beanName);
+            DisposableBean disposableBean = disposableBeans.remove(beanName);
             try {
                 disposableBean.destroy();
             } catch (Exception e) {
@@ -57,4 +54,5 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
             }
         }
     }
+
 }

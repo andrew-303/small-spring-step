@@ -1,13 +1,15 @@
 package cn.bugstack.springframework.beans.factory;
+
 /**
  * Interface to be implemented by objects used within a {@link BeanFactory}
  * which are themselves factories. If a bean implements this interface,
  * it is used as a factory for an object to expose, not directly as a bean
  * instance that will be exposed itself.
- * 由 {@link BeanFactory}中使用的对象实现的接口，这些对象本身就是工厂。如果 bean 实现了这个接口，
- * 它被用作对象公开的工厂，而不是直接作为将自身公开的 bean 实例。
  * @param <T>
  *
+ * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
+ * 公众号：bugstack虫洞栈
+ * Create by 小傅哥(fustack)
  */
 public interface FactoryBean<T> {
 

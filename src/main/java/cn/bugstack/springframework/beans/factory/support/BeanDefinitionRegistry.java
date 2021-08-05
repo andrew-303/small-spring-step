@@ -40,4 +40,5 @@ public interface BeanDefinitionRegistry {
      * 返回注册表中所有的Bean名称
      */
     String[] getBeanDefinitionNames();
+
 }

@@ -1,31 +1,26 @@
 package cn.bugstack.springframework.core.io;
 
-import cn.bugstack.springframework.beans.util.ClassUtils;
+import cn.bugstack.springframework.util.ClassUtils;
 import cn.hutool.core.lang.Assert;
-import cn.hutool.core.util.ClassUtil;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * 这一部分的实现是用于通过 ClassLoader 读取 ClassPath 下的文件信息，
- * 具体的读取过程主要是：classLoader.getResourceAsStream(path)
- */
 public class ClassPathResource implements Resource {
 
     private final String path;
+
     private ClassLoader classLoader;
 
     public ClassPathResource(String path) {
-        this(path, (ClassLoader)null);
+        this(path, (ClassLoader) null);
     }
 
     public ClassPathResource(String path, ClassLoader classLoader) {
-        Assert.notNull(path,"Path must be not null");
-//        System.out.println("path: " + path);
+        Assert.notNull(path, "Path must not be null");
         this.path = path;
-        this.classLoader = (classLoader != null ? classLoader: ClassUtils.getDefaultClassLoader());
+        this.classLoader = (classLoader != null ? classLoader : ClassUtils.getDefaultClassLoader());
     }
 
     @Override
@@ -37,6 +32,4 @@ public class ClassPathResource implements Resource {
         }
         return is;
     }
-
-
 }

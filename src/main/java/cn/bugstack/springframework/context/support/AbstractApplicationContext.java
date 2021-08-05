@@ -21,8 +21,12 @@ import java.util.Map;
  * interface. Doesn't mandate the type of storage used for configuration; simply
  * implements common context functionality. Uses the Template Method design pattern,
  * requiring concrete subclasses to implement abstract methods.
- *
- * 应用上下文抽象类实现
+ * <p>
+ * 抽象应用上下文
+ * <p>
+ * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
+ * 公众号：bugstack虫洞栈
+ * Create by 小傅哥(fustack)
  */
 public abstract class AbstractApplicationContext extends DefaultResourceLoader implements ConfigurableApplicationContext {
 
@@ -30,34 +34,30 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
 
     private ApplicationEventMulticaster applicationEventMulticaster;
 
-    /**
-     * refresh方法就是整个Spring容器的操作过程
-     */
     @Override
     public void refresh() throws BeansException {
-
-        // 1.创建BeanFactory,并加载BeanDefinition
+        // 1. 创建 BeanFactory，并加载 BeanDefinition
         refreshBeanFactory();
 
-        // 2.获取BeanFactory
+        // 2. 获取 BeanFactory
         ConfigurableListableBeanFactory beanFactory = getBeanFactory();
 
         // 3. 添加 ApplicationContextAwareProcessor，让继承自 ApplicationContextAware 的 Bean 对象都能感知所属的 ApplicationContext
         beanFactory.addBeanPostProcessor(new ApplicationContextAwareProcessor(this));
 
-        // 4.在 Bean 实例化之前，执行 BeanFactoryPostProcessor (Invoke factory processors registered as beans in the context.)
+        // 4. 在 Bean 实例化之前，执行 BeanFactoryPostProcessor (Invoke factory processors registered as beans in the context.)
         invokeBeanFactoryPostProcessors(beanFactory);
 
-        // 5.BeanPostProcessor 需要提前于其他Bean对象实例化之前执行操作执行
+        // 5. BeanPostProcessor 需要提前于其他 Bean 对象实例化之前执行注册操作
         registerBeanPostProcessors(beanFactory);
 
-        // 6.初始化事件发布者
+        // 6. 初始化事件发布者
         initApplicationEventMulticaster();
 
         // 7. 注册事件监听器
         registerListeners();
 
-        // 8.提前实例化单例Bean对象
+        // 8. 提前实例化单例Bean对象
         beanFactory.preInstantiateSingletons();
 
         // 9. 发布容器刷新完成事件
@@ -85,7 +85,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
     private void initApplicationEventMulticaster() {
         ConfigurableListableBeanFactory beanFactory = getBeanFactory();
         applicationEventMulticaster = new SimpleApplicationEventMulticaster(beanFactory);
-        beanFactory.registerSingleton(APPLICATION_EVENT_MULTICASTER_BEAN_NAME,applicationEventMulticaster);
+        beanFactory.registerSingleton(APPLICATION_EVENT_MULTICASTER_BEAN_NAME, applicationEventMulticaster);
     }
 
     private void registerListeners() {
@@ -138,7 +138,9 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
     public void close() {
         // 发布容器关闭事件
         publishEvent(new ContextClosedEvent(this));
-        // 执行销毁单例Bean的销毁方法
+
+        // 执行销毁单例bean的销毁方法
         getBeanFactory().destroySingletons();
     }
+
 }

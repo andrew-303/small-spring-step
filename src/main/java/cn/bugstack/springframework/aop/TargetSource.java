@@ -1,5 +1,16 @@
 package cn.bugstack.springframework.aop;
 
+/**
+ * A <code>TargetSource</code> is used to obtain the current "target" of
+ * an AOP invocation, which will be invoked via reflection if no around
+ * advice chooses to end the interceptor chain itself.
+ * <p>
+ * 被代理的目标对象
+ * <p>
+ * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
+ * 公众号：bugstack虫洞栈
+ * Create by 小傅哥(fustack)
+ */
 public class TargetSource {
 
     private final Object target;
@@ -28,5 +39,5 @@ public class TargetSource {
     public Object getTarget(){
         return this.target;
     }
-
+    
 }

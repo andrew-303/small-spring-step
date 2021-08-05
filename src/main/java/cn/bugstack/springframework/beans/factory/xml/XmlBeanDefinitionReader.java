@@ -12,12 +12,18 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.XmlUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Bean definition reader for XML bean definitions.
+ * <p>
+ * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
+ * 公众号：bugstack虫洞栈
+ * Create by 小傅哥(fustack)
+ */
 public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
     public XmlBeanDefinitionReader(BeanDefinitionRegistry registry) {
@@ -61,38 +67,34 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
     }
 
     protected void doLoadBeanDefinitions(InputStream inputStream) throws ClassNotFoundException {
-//        System.out.println("call doLoadBeanDefinitions方法");
         Document doc = XmlUtil.readXML(inputStream);
         Element root = doc.getDocumentElement();
         NodeList childNodes = root.getChildNodes();
 
         for (int i = 0; i < childNodes.getLength(); i++) {
-//            System.out.println("childNodes节点是否是Element: "+childNodes.item(i));
-//            System.out.println("childNodes节点名字是否是bean: "+childNodes.item(i).getNodeName());
             // 判断元素
-            if(!(childNodes.item(i) instanceof Element)) continue;
+            if (!(childNodes.item(i) instanceof Element)) continue;
             // 判断对象
-            if(!("bean".equals(childNodes.item(i).getNodeName()))) continue;
+            if (!"bean".equals(childNodes.item(i).getNodeName())) continue;
 
-            // 解析标签 bean标签
+            // 解析标签
             Element bean = (Element) childNodes.item(i);
             String id = bean.getAttribute("id");
-            String name = bean.getAttribute("getNodeName");
+            String name = bean.getAttribute("name");
             String className = bean.getAttribute("class");
             String initMethod = bean.getAttribute("init-method");
             String destroyMethodName = bean.getAttribute("destroy-method");
             String beanScope = bean.getAttribute("scope");
-//            System.out.println("id:"+ id + " ,name: " + name + ",className: " + className);
 
-            // 获取Class，方便获取类中的名称
+            // 获取 Class，方便获取类中的名称
             Class<?> clazz = Class.forName(className);
-            // 优先级id > name
+            // 优先级 id > name
             String beanName = StrUtil.isNotEmpty(id) ? id : name;
             if (StrUtil.isEmpty(beanName)) {
                 beanName = StrUtil.lowerFirst(clazz.getSimpleName());
             }
 
-            //定义Bean
+            // 定义Bean
             BeanDefinition beanDefinition = new BeanDefinition(clazz);
             beanDefinition.setInitMethodName(initMethod);
             beanDefinition.setDestroyMethodName(destroyMethodName);
@@ -103,11 +105,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
             // 读取属性并填充
             for (int j = 0; j < bean.getChildNodes().getLength(); j++) {
-                // 判断元素
-                if(!(bean.getChildNodes().item(j) instanceof Element)) continue;
-                // 判断对象的属性
-                if(!("property".equals(bean.getChildNodes().item(j).getNodeName()))) continue;
-                // 解析标签 property
+                if (!(bean.getChildNodes().item(j) instanceof Element)) continue;
+                if (!"property".equals(bean.getChildNodes().item(j).getNodeName())) continue;
+                // 解析标签：property
                 Element property = (Element) bean.getChildNodes().item(j);
                 String attrName = property.getAttribute("name");
                 String attrValue = property.getAttribute("value");
@@ -121,7 +121,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             if (getRegistry().containsBeanDefinition(beanName)) {
                 throw new BeansException("Duplicate beanName[" + beanName + "] is not allowed");
             }
-            // 注册BeanDefinition
+            // 注册 BeanDefinition
             getRegistry().registerBeanDefinition(beanName, beanDefinition);
         }
     }
