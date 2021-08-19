@@ -1,6 +1,7 @@
 package cn.bugstack.springframework.beans.factory.config;
 
 import cn.bugstack.springframework.beans.factory.HierarchicalBeanFactory;
+import cn.bugstack.springframework.beans.util.StringValueResolver;
 
 /**
  * Configuration interface to be implemented by most bean factories. Provides
@@ -20,5 +21,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
      * 销毁单例对象
      */
     void destroySingletons();
+
+
 
 }
